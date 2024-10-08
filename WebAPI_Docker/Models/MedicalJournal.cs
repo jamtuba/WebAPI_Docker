@@ -1,8 +1,8 @@
-namespace Test_Dias.Models;
+namespace WebAPI_Docker.Models;
 
 public class MedicalJournal
 {
     public Guid Id { get; set; }
-    public string Name { get; set; }
-    public string SSN { get; set; }
+    public required string Name { get; set; }
+    public required string SSN { get; set; }
 }

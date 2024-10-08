@@ -1,9 +1,9 @@
-﻿namespace Test_Dias.Models;
+﻿namespace WebAPI_Docker.Models;
 
 public class Admission
 {
     public Guid Id { get; set; }
-    public Department Department { get; set; }
+    public required Department Department { get; set; }
     public Doctor? Doctor { get; set; }
-    public MedicalJournal MedicalJournal { get; set; }
+    public required MedicalJournal MedicalJournal { get; set; }
 }

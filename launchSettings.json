@@ -3,8 +3,11 @@
     "Docker Compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
+      "composeLaunchAction": "None",
+      "composeLaunchServiceName": "webapi_docker",
       "serviceActions": {
-        "webapi_docker": "StartDebugging"
+        "webapi_docker": "StartDebugging",
+        "sql-server": "StarWithoutDebugging"
       }
     }
   }
