@@ -33,18 +33,18 @@ public class MedicalJournalsController : ControllerBase
     }
 
     [HttpGet("patient")]
-    public async Task<ActionResult<MedicalJournal>> GetMedicalJournalId([FromQuery] string patientId, [FromQuery] string doctorId)
+    public async Task<ActionResult<MedicalJournal>> GetMedicalJournalId([FromQuery] string patientSsn, [FromQuery] string doctorId)
     {
         var medicalJournal = await _dbContext.MedicalJournals
-            .FirstOrDefaultAsync(m => m.SSN == patientId);
+            .FirstOrDefaultAsync(m => m.SSN == patientSsn);
 
         if (!MedicalJournalIsValid(medicalJournal))
-            return NotFound($"No medical journal with the ssn: {patientId}");
+            return NotFound($"No medical journal with the ssn: {patientSsn}");
 
         var admission = await _dbContext.Admissions
             .Include(a => a.Doctor)
             .Include(a => a.MedicalJournal)
-            .FirstOrDefaultAsync(a => a.MedicalJournal.Id == medicalJournal!.Id && a.Doctor.Id == Guid.Parse(doctorId));
+            .FirstOrDefaultAsync(a => a.MedicalJournal.Id == medicalJournal!.Id && a.Doctor!.Id == Guid.Parse(doctorId));
 
         if (admission == null)
             return BadRequest("The doctor is not authorized to view the medical journal");

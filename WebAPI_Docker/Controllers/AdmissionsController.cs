@@ -3,8 +3,6 @@ using WebAPI_Docker.Data;
 using WebAPI_Docker.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebAPI_Docker.Controllers.Requests;
-using WebAPI_Docker.Models;
 
 namespace WebAPI_Docker.Controllers;
 

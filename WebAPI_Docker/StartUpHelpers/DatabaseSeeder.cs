@@ -61,7 +61,7 @@ public class DatabaseSeeder : IDatabaseSeeder
             .StrictMode(true)
             .RuleFor(a => a.Doctor, (f, a) => doctors[randomNumber.Next(0, 9)])
             .RuleFor(a => a.MedicalJournal, (f, a) => medicalJournals[randomNumber.Next(0, 9)])
-            .RuleFor(a => a.Department, (f, a) => a.Doctor.Department)
+            .RuleFor(a => a.Department, (f, a) => a.Doctor!.Department)
             .RuleFor(a => a.Id, (f, a) => Guid.NewGuid());
 
         var admissions = AddAdmissions(testAdmission);
