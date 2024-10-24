@@ -38,8 +38,7 @@ public class DatabaseSeeder : IDatabaseSeeder
             .StrictMode(true)
             .RuleFor(d => d.Name, (f, d) => "Department " + f.IndexGlobal)
             .RuleFor(d => d.Id, (f, d) => Guid.NewGuid());
-
-        var departments = AddDepartment(testDepartment);
+        var departments = AddList<Department>(testDepartment);
 
         var testDoctor = new Faker<Doctor>()
             .StrictMode(true)
@@ -47,7 +46,7 @@ public class DatabaseSeeder : IDatabaseSeeder
             .RuleFor(d => d.Department, (f, d) => departments[randomNumber.Next(0, 9)])
             .RuleFor(d => d.Id, (f, d) => Guid.NewGuid());
 
-        var doctors = AddDoctors(testDoctor);
+        var doctors = AddList<Doctor>(testDoctor);
 
         var testMedicalJournal = new Faker<MedicalJournal>()
             .StrictMode(true)
@@ -55,7 +54,7 @@ public class DatabaseSeeder : IDatabaseSeeder
             .RuleFor(mj => mj.SSN, (f, mj) => f.Person.Cpr())
             .RuleFor(mj => mj.Id, (f, mj) => Guid.NewGuid());
 
-        var medicalJournals = AddMedicalJournals(testMedicalJournal);
+        var medicalJournals = AddList<MedicalJournal>(testMedicalJournal);
 
         var testAdmission = new Faker<Admission>()
             .StrictMode(true)
@@ -64,7 +63,7 @@ public class DatabaseSeeder : IDatabaseSeeder
             .RuleFor(a => a.Department, (f, a) => a.Doctor!.Department)
             .RuleFor(a => a.Id, (f, a) => Guid.NewGuid());
 
-        var admissions = AddAdmissions(testAdmission);
+        var admissions = AddList<Admission>(testAdmission);
 
         _context.Departments.AddRange(departments);
         _context.Doctors.AddRange(doctors);
@@ -74,46 +73,13 @@ public class DatabaseSeeder : IDatabaseSeeder
         await _context.SaveChangesAsync();
     }
 
-    private static List<Department> AddDepartment(Faker<Department> department)
+    private static List<T> AddList<T>(Faker<T> fakerObject) where T : class
     {
-        var departmentList = new List<Department>();
+        var listToReturn = new List<T>();
         for (int i = 0; i < NUMBER_OF_ITEMS; i++)
         {
-            departmentList.Add(department.Generate());
+            listToReturn.Add(fakerObject.Generate());
         }
-
-        return departmentList;
+        return listToReturn;
     }
-
-    private static List<Doctor> AddDoctors(Faker<Doctor> doctor)
-    {
-        var docList = new List<Doctor>();
-        for (int i = 0; i < NUMBER_OF_ITEMS; i++)
-        {
-            docList.Add(doctor.Generate());
-        }
-
-        return docList;
-    }
-    private static List<MedicalJournal> AddMedicalJournals(Faker<MedicalJournal> medicalJournal)
-    {
-        var medicalJournalList = new List<MedicalJournal>();
-        for (int i = 0; i < NUMBER_OF_ITEMS; i++)
-        {
-            medicalJournalList.Add(medicalJournal.Generate());
-        }
-
-        return medicalJournalList;
-    }
-
-    private static List<Admission> AddAdmissions(Faker<Admission> admission)
-    {
-        var admissionList = new List<Admission>();
-        for (int i = 0; i < NUMBER_OF_ITEMS; i++)
-        {
-            admissionList.Add(admission.Generate());
-        }
-
-        return admissionList;
-    }   
 }
